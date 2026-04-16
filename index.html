@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الإدارة والتحليل الاستراتيجي للمنافسين</title>
+    <title>المنصة الاستراتيجية | تحليل المنافسين ودراسات الجدوى</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            /* لون أزرق كحلي أعمق بناءً على طلبك السابق */
             background: linear-gradient(135deg, #020617 0%, #0b1a42 50%, #007b99 100%);
             min-height: 100vh;
             margin: 0;
@@ -17,7 +16,6 @@
             color: #ffffff;
         }
 
-        /* Canvas Background */
         #networkCanvas {
             position: fixed;
             top: 0;
@@ -28,7 +26,6 @@
             pointer-events: none;
         }
 
-        /* Glassmorphism Classes */
         .glass-panel {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -52,20 +49,15 @@
             box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
         }
 
-        .glass-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
+        .glass-input::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
         ::-webkit-scrollbar-thumb { background: rgba(6, 182, 212, 0.5); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(6, 182, 212, 0.8); }
 
-        /* Glow Effects */
         .glow-text { text-shadow: 0 0 15px rgba(6, 182, 212, 0.6); }
 
-        /* Loader */
         .loader {
             border: 4px solid rgba(255, 255, 255, 0.05);
             border-top: 4px solid #06b6d4;
@@ -76,12 +68,20 @@
             margin: 20px auto;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Chart Animations */
-        @keyframes fillBar {
-            from { width: 0; }
-        }
+        @keyframes fillBar { from { width: 0; } }
         .animate-bar { animation: fillBar 1.5s ease-out forwards; }
+
+        /* Print Settings */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { background: #020617 !important; color: white !important; }
+            #networkCanvas, .no-print, header, .input-section { display: none !important; }
+            .glass-panel { break-inside: avoid; margin-bottom: 20px; page-break-inside: avoid; }
+            
+            body.printing-modal > .container { display: none !important; }
+            body.printing-modal #feasibilityModal { position: absolute !important; top: 0; left: 0; display: block !important; opacity: 1 !important; transform: none !important; background: transparent !important; }
+            body.printing-modal #modalContent { box-shadow: none !important; border: none !important; max-height: none !important; overflow: visible !important; width: 100% !important; max-width: 100% !important; }
+        }
     </style>
 </head>
 <body class="antialiased relative">
@@ -94,22 +94,21 @@
             <img src="https://cdn.prod.website-files.com/60635261197822875f187b0b/6101599912ddba5003383e9c_%D8%B4%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%86%D9%89-19-p-500.png" 
                  alt="شعار المنى" 
                  class="mx-auto h-24 mb-4 filter drop-shadow-[0_0_12px_rgba(255,255,255,0.4)] hover:scale-105 transition-transform duration-300">
-            <h1 class="text-3xl md:text-5xl font-extrabold mb-3 glow-text tracking-wide">منصة الإدارة والتحليل الاستراتيجي</h1>
-            <p class="text-sm md:text-lg text-cyan-200 font-light">محرك الذكاء الاصطناعي لتحليل الأسواق وبناء دراسات الجدوى المتقدمة</p>
+            <h1 class="text-3xl md:text-5xl font-black mb-3 glow-text tracking-wide text-white">منصة الإدارة والتحليل الاستراتيجي</h1>
+            <p class="text-sm md:text-lg text-cyan-200 font-bold">إنشاء تحليل استراتيجي للمنافسين مع تقديم مقترحات لدراسة الجدوى</p>
         </header>
 
-        <div class="glass-panel p-6 md:p-10 mb-8 relative overflow-hidden">
-            <!-- Decorative blur -->
+        <div class="glass-panel p-6 md:p-10 mb-8 relative overflow-hidden input-section">
             <div class="absolute -top-20 -right-20 w-64 h-64 bg-cyan-600/20 rounded-full blur-[80px]"></div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                 <div>
                     <label class="block text-sm font-bold mb-2 text-cyan-100">اسم المشروع الخاص بالعميل</label>
-                    <input type="text" id="projectName" placeholder="مثال: ذكاء تك، قهوة الأصول..." class="glass-input w-full px-5 py-4 rounded-xl text-lg">
+                    <input type="text" id="projectName" placeholder="مثال: ذكاء تك، قهوة المساء..." class="glass-input w-full px-5 py-4 rounded-xl text-lg">
                 </div>
                 <div>
                     <label class="block text-sm font-bold mb-2 text-cyan-100">التصنيف الخاص بالمشروع</label>
-                    <input type="text" id="projectCategory" placeholder="مثال: مقهى مختص، تطبيق توصيل..." class="glass-input w-full px-5 py-4 rounded-xl text-lg">
+                    <input type="text" id="projectCategory" placeholder="مثال: مقهى مختص، شركة تقنية..." class="glass-input w-full px-5 py-4 rounded-xl text-lg">
                 </div>
                 <div>
                     <label class="block text-sm font-bold mb-2 text-cyan-100">المدينة المستهدفة</label>
@@ -138,20 +137,23 @@
         </div>
 
         <div id="resultsArea" class="hidden">
-            <div class="mb-6 flex justify-between items-center">
-                <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300 drop-shadow-md">لوحة معلومات التحليل الاستراتيجي (Dashboard)</h2>
+            <div class="mb-6 flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/10">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">تقرير التحليل الاستراتيجي (Dashboard)</h2>
+                <button onclick="window.print()" class="no-print flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-5 py-2.5 rounded-lg transition font-bold border border-gray-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    طباعة التقرير / PDF
+                </button>
             </div>
             
-            <!-- AI Content Container -->
             <div id="analysisContent" class="space-y-8">
-                <!-- Content injected here -->
+                <!-- AI Content -->
             </div>
 
-            <div class="mt-12 text-center pb-10">
+            <div class="mt-12 text-center pb-10 flex flex-wrap justify-center gap-4 no-print border-t border-white/10 pt-8">
                 <button id="btnFeasibility" onclick="openFeasibilityModal()" class="hidden bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-4 px-10 rounded-full shadow-[0_0_25px_rgba(168,85,247,0.6)] transform transition duration-300 hover:scale-105 border border-purple-400/50 text-xl">
                     <span class="flex items-center gap-2 justify-center">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        إنشاء مسودة دراسة الجدوى المالية والفنية
+                        إنشاء دراسة الجدوى المفصلة
                     </span>
                 </button>
             </div>
@@ -161,21 +163,29 @@
 
     <!-- Feasibility Modal -->
     <div id="feasibilityModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 transition-opacity duration-300">
-        <div class="glass-panel w-full max-w-5xl max-h-[90vh] flex flex-col relative transform scale-95 transition-transform duration-300 border border-purple-500/30" id="modalContent">
-            <button onclick="closeFeasibilityModal()" class="absolute top-5 left-5 text-gray-300 hover:text-white bg-white/10 hover:bg-red-500/80 rounded-full p-2 transition-colors z-20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
+        <div class="glass-panel w-full max-w-6xl max-h-[95vh] flex flex-col relative transform scale-95 transition-transform duration-300 border border-purple-500/30 bg-[#0b1a42]" id="modalContent">
             
-            <div class="p-6 border-b border-white/10 bg-gradient-to-r from-purple-900/40 to-transparent rounded-t-xl">
+            <!-- Modal Header with Print Button -->
+            <div class="p-6 border-b border-white/10 bg-gradient-to-r from-purple-900/60 to-transparent rounded-t-xl flex justify-between items-center relative z-20">
                 <h2 class="text-3xl font-bold text-white flex items-center gap-3">
-                    <span class="text-4xl">📑</span> مسودة دراسة الجدوى الاستراتيجية
+                    <span class="text-4xl">📑</span> دراسة الجدوى الاستراتيجية التفصيلية
                 </h2>
+                <div class="flex gap-3 no-print">
+                    <button onclick="printFeasibilityModal()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg transition font-bold border border-blue-400 shadow-[0_0_15px_rgba(37,99,235,0.5)]">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        طباعة الدراسة
+                    </button>
+                    <button onclick="closeFeasibilityModal()" class="text-gray-300 hover:text-white bg-red-900/50 hover:bg-red-500 border border-red-500/50 rounded-lg px-4 py-2.5 transition-colors font-bold">
+                        إغلاق
+                    </button>
+                </div>
             </div>
             
-            <div class="p-8 overflow-y-auto flex-1 custom-scrollbar">
-                <div id="modalLoading" class="text-center py-20">
-                    <div class="loader"></div>
-                    <p class="text-purple-200 mt-6 text-xl animate-pulse">جاري صياغة البنود المالية والفنية وتحديد الفجوات السوقية...</p>
+            <div class="p-8 overflow-y-auto flex-1 custom-scrollbar pb-20">
+                <div id="modalLoading" class="text-center py-32 no-print">
+                    <div class="loader mx-auto"></div>
+                    <p class="text-purple-200 mt-6 text-xl animate-pulse font-bold">جاري كتابة التقارير المطولة وحساب الفجوات وصياغة الخطة التسويقية...</p>
+                    <p class="text-gray-400 mt-2">قد يستغرق الأمر بضع ثوانٍ لإخراج تفاصيل دقيقة.</p>
                 </div>
                 <div id="feasibilityContent" class="hidden">
                     <!-- Feasibility Content here -->
@@ -185,118 +195,64 @@
     </div>
 
     <script>
-        // --- Background Animation (Network) ---
         const canvas = document.getElementById('networkCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
         class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.radius = Math.random() * 1.5 + 0.5;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
-                if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(6, 182, 212, 0.4)';
-                ctx.fill();
-            }
+            constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3; this.radius = Math.random() * 1.5 + 0.5; }
+            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx; if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(6, 182, 212, 0.4)'; ctx.fill(); }
         }
-
-        function initParticles() {
-            particles = [];
-            const numParticles = Math.min(Math.floor(window.innerWidth * window.innerHeight / 12000), 120);
-            for (let i = 0; i < numParticles; i++) {
-                particles.push(new Particle());
-            }
-        }
-
+        function initParticles() { particles = []; const numParticles = Math.min(Math.floor(window.innerWidth * window.innerHeight / 12000), 120); for (let i = 0; i < numParticles; i++) particles.push(new Particle()); }
         function animateNetwork() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
+                particles[i].update(); particles[i].draw();
                 for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 150) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(6, 182, 212, ${0.4 - distance / 375})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
+                    const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y, distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 150) { ctx.beginPath(); ctx.strokeStyle = `rgba(6, 182, 212, ${0.4 - distance / 375})`; ctx.lineWidth = 0.5; ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); }
                 }
             }
             requestAnimationFrame(animateNetwork);
         }
-        initParticles();
-        animateNetwork();
+        initParticles(); animateNetwork();
 
-
-        // --- AI API Setup ---
-        const apiKey = ""; 
-
+        // --- الاتصال بملف الوسيط PHP ---
         async function fetchGeminiData(promptText) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            // مسار ملف PHP الذي ستقوم برفعه بجوار هذا الملف
+            const url = 'api.php'; 
             
             const payload = {
                 contents: [{ parts: [{ text: promptText }] }],
                 systemInstruction: { 
                     parts: [{ 
-                        text: "أنت مستشار أعمال استراتيجي من الطراز الرفيع (C-Level Executive) ومبرمج واجهات محترف. قم بإرجاع النتائج بصيغة HTML مدمجة بـ Tailwind CSS حصرياً بدون أي مقدمات أو علامات Markdown. يجب أن تستبدل الأقواس المربعة [ ] بالبيانات الحقيقية والمفصلة، استبدل الأرقام النسبية المئوية كـ [75] بناءً على تقييمك للسوق. التزم بالهيكل البرمجي المرسل لك حرفياً لضمان خروج لوحة معلومات (Dashboard) بصرية احترافية للعميل."
+                        text: "أنت مستشار أعمال استراتيجي من الطراز الرفيع. يجب إخراج النتائج بصيغة HTML مدمجة بـ Tailwind CSS حصرياً بدون Markdown. التزم بالهيكل بدقة متناهية، وقدم معلومات استراتيجية دقيقة ومطولة ومفصلة جداً تعكس خبرتك."
                     }] 
                 }
             };
 
-            let retries = 5;
-            let delay = 1000;
-            
+            let retries = 5; let delay = 1000;
             while (retries > 0) {
                 try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
+                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
                     const data = await response.json();
-                    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                        let htmlContent = data.candidates[0].content.parts[0].text;
-                        htmlContent = htmlContent.replace(/```html/gi, '').replace(/```/g, '').trim();
-                        return htmlContent;
-                    } else {
-                        throw new Error("Invalid response format");
-                    }
+                    
+                    if (data.error) throw new Error(data.error);
+
+                    if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                        return data.candidates[0].content.parts[0].text.replace(/```html/gi, '').replace(/```/g, '').trim();
+                    } else throw new Error("Invalid response format");
                 } catch (error) {
                     retries--;
-                    if (retries === 0) {
-                        return `<div class="bg-red-900/50 border border-red-500 p-6 rounded-xl text-red-200 text-center text-lg">
-                                   <strong>عذراً:</strong> حدث خطأ أثناء فحص البيانات من الخوادم. يرجى إعادة المحاولة.
-                                </div>`;
-                    }
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2;
+                    if (retries === 0) return `<div class="bg-red-900/50 border border-red-500 p-8 rounded-2xl text-white text-center shadow-lg backdrop-blur-md">
+                        <h4 class="text-2xl font-bold text-red-400 mb-3">⚠️ فشل الاتصال بالخادم</h4>
+                        <p class="text-lg mb-4">يرجى التأكد من رفع ملف api.php بجانب ملف index.html بشكل صحيح على الاستضافة.</p>
+                        <p class="text-sm text-gray-300 bg-black/50 p-2 rounded">تفاصيل الخطأ التقني: ${error.message}</p>
+                    </div>`;
+                    await new Promise(res => setTimeout(res, delay)); delay *= 2;
                 }
             }
         }
@@ -308,28 +264,22 @@
             const pCat = document.getElementById('projectCategory').value.trim();
             const pCity = document.getElementById('targetCity').value.trim();
 
-            if (!pName || !pCat || !pCity) {
-                alert('يرجى تعبئة جميع الحقول بشكل صحيح.');
-                return;
-            }
+            if (!pName || !pCat || !pCity) { alert('يرجى تعبئة جميع الحقول بشكل صحيح.'); return; }
 
             currentAnalysisData = { name: pName, category: pCat, city: pCity };
-
             document.getElementById('resultsArea').classList.add('hidden');
             document.getElementById('btnFeasibility').classList.add('hidden');
             document.getElementById('loadingState').classList.remove('hidden');
 
             const prompt = `
-                أجرِ تحليلاً استراتيجياً عميقاً لمشروع:
-                الاسم: "${pName}" | المجال: "${pCat}" | المدينة: "${pCity}" في السعودية.
+                أجرِ تحليلاً استراتيجياً عميقاً لمشروع: الاسم: "${pName}" | المجال: "${pCat}" | المدينة: "${pCity}" في السعودية.
 
-                يجب إخراج النتيجة بهذا الهيكل (HTML/Tailwind) فقط وبدقة عالية:
+                يجب إخراج النتيجة بهذا الهيكل (HTML/Tailwind) فقط:
 
-                <!-- Section 1: Brand Name & Intro -->
-                <div class="glass-panel p-8 flex flex-col md:flex-row gap-6 items-center border-l-4 border-cyan-500 relative overflow-hidden">
+                <div class="glass-panel p-8 flex flex-col md:flex-row gap-6 items-center border-l-4 border-cyan-500">
                     <div class="flex-1">
                         <h3 class="text-2xl font-bold text-cyan-300 mb-3">حالة العلامة التجارية والتواجد</h3>
-                        <p class="text-gray-200 leading-relaxed text-lg">[تحليل لمدى توفر اسم "${pName}" في السوق، هل هو مستخدم بكثرة؟ ما مدى جاذبيته وقوته التسويقية في هذا المجال]</p>
+                        <p class="text-gray-200 leading-relaxed text-lg">[تحليل لمدى توفر اسم "${pName}" في السوق وما مدى جاذبيته وقوته التسويقية]</p>
                     </div>
                     <div class="w-full md:w-1/3 bg-black/40 p-4 rounded-xl border border-white/10 text-center">
                         <span class="block text-sm text-gray-400 mb-1">التقييم الاستراتيجي العام</span>
@@ -337,215 +287,165 @@
                     </div>
                 </div>
 
-                <!-- Section 2: Porter's Five Forces Infographic -->
                 <div class="glass-panel p-8 mt-8">
-                    <h3 class="text-3xl font-extrabold text-white mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
-                        <span class="text-4xl text-blue-400">⚖️</span> تحليل قوى بورتر الخمس (Porter's 5 Forces)
-                    </h3>
+                    <h3 class="text-3xl font-extrabold text-white mb-8 border-b border-white/10 pb-4 flex items-center gap-2"><span class="text-4xl text-blue-400">⚖️</span> تحليل قوى بورتر الخمس</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Force 1 -->
-                        <div class="bg-black/40 p-5 rounded-2xl border border-blue-500/30 hover:border-blue-400 transition-colors">
+                        <div class="bg-black/40 p-5 rounded-2xl border border-blue-500/30">
                             <h4 class="text-lg font-bold text-blue-300 mb-2">1. تهديد دخول منافسين جدد</h4>
-                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[شرح مدى سهولة أو صعوبة دخول مستثمرين جدد لهذا المجال في ${pCity} بالتفصيل]</p>
-                            <div class="flex justify-between text-xs mb-1 text-gray-400 font-bold"><span>مستوى التهديد</span> <span>[رقم من 10 لـ 90]%</span></div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
-                                <div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم من 10 لـ 90]%"></div>
-                            </div>
+                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[شرح تفصيلي]</p>
+                            <div class="w-full bg-gray-800 rounded-full h-2.5"><div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div></div>
                         </div>
-                        <!-- Force 2 -->
-                        <div class="bg-black/40 p-5 rounded-2xl border border-purple-500/30 hover:border-purple-400 transition-colors">
+                        <div class="bg-black/40 p-5 rounded-2xl border border-purple-500/30">
                             <h4 class="text-lg font-bold text-purple-300 mb-2">2. القوة التفاوضية للموردين</h4>
-                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[شرح تفصيلي عن موردي المواد الخام أو التقنية لهذا المشروع، وهل يتحكمون بالسعر؟]</p>
-                            <div class="flex justify-between text-xs mb-1 text-gray-400 font-bold"><span>مستوى التهديد</span> <span>[رقم]%</span></div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
-                                <div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div>
-                            </div>
+                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[شرح تفصيلي]</p>
+                            <div class="w-full bg-gray-800 rounded-full h-2.5"><div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div></div>
                         </div>
-                        <!-- Force 3 -->
-                        <div class="bg-black/40 p-5 rounded-2xl border border-cyan-500/30 hover:border-cyan-400 transition-colors">
+                        <div class="bg-black/40 p-5 rounded-2xl border border-cyan-500/30">
                             <h4 class="text-lg font-bold text-cyan-300 mb-2">3. القوة التفاوضية للعملاء</h4>
-                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[مدى تأثير المشترين في ${pCity} على الأسعار والخدمات وحساسيتهم للأسعار]</p>
-                            <div class="flex justify-between text-xs mb-1 text-gray-400 font-bold"><span>مستوى التهديد</span> <span>[رقم]%</span></div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
-                                <div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div>
-                            </div>
+                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[شرح تفصيلي]</p>
+                            <div class="w-full bg-gray-800 rounded-full h-2.5"><div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div></div>
                         </div>
-                        <!-- Force 4 -->
-                        <div class="bg-black/40 p-5 rounded-2xl border border-amber-500/30 hover:border-amber-400 transition-colors">
-                            <h4 class="text-lg font-bold text-amber-300 mb-2">4. تهديد المنتجات/الخدمات البديلة</h4>
-                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[ما هي البدائل المتاحة للعميل التي قد تغنيه عن مشروعك؟]</p>
-                            <div class="flex justify-between text-xs mb-1 text-gray-400 font-bold"><span>مستوى التهديد</span> <span>[رقم]%</span></div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
-                                <div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div>
-                            </div>
+                        <div class="bg-black/40 p-5 rounded-2xl border border-amber-500/30">
+                            <h4 class="text-lg font-bold text-amber-300 mb-2">4. تهديد المنتجات البديلة</h4>
+                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[شرح تفصيلي]</p>
+                            <div class="w-full bg-gray-800 rounded-full h-2.5"><div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div></div>
                         </div>
-                        <!-- Force 5 -->
-                        <div class="bg-black/40 p-5 rounded-2xl border border-red-500/30 hover:border-red-400 transition-colors md:col-span-2 lg:col-span-1">
+                        <div class="bg-black/40 p-5 rounded-2xl border border-red-500/30 md:col-span-2 lg:col-span-1">
                             <h4 class="text-lg font-bold text-red-300 mb-2">5. شدة المنافسة الحالية</h4>
-                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[شراسة المنافسة بين العلامات الموجودة حالياً في ${pCity}]</p>
-                            <div class="flex justify-between text-xs mb-1 text-gray-400 font-bold"><span>مستوى التهديد</span> <span>[رقم]%</span></div>
-                            <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
-                                <div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div>
-                            </div>
+                            <p class="text-gray-300 text-sm mb-4 h-16 overflow-hidden">[شرح تفصيلي]</p>
+                            <div class="w-full bg-gray-800 rounded-full h-2.5"><div class="bg-gradient-to-r from-green-500 to-red-500 h-full animate-bar" style="width: [رقم]%"></div></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 3: Detailed Competitor Analysis (Infographic Cards) -->
                 <div class="mt-12 mb-6 flex items-center justify-center relative">
                     <div class="absolute w-full h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
-                    <h3 class="text-3xl font-extrabold text-white bg-[#0b1a42] px-6 relative z-10 flex items-center gap-2">
-                        <span class="text-4xl">⚔️</span> خريطة المنافسين التفصيلية
-                    </h3>
+                    <h3 class="text-3xl font-extrabold text-white bg-[#0b1a42] px-6 relative z-10">⚔️ خريطة المنافسين التفصيلية</h3>
                 </div>
 
                 <div class="space-y-6">
-                    <!-- قم بتكرار هذا البلوك 5 مرات لـ 5 منافسين واقعيين ومختلفين في نفس المدينة/المجال -->
-                    <div class="glass-panel p-0 overflow-hidden border border-white/10 hover:border-cyan-500/50 transition-all duration-300">
-                        <!-- رأس البطاقة -->
+                    <!-- قم بتكرار هذا البلوك 5 مرات لـ 5 منافسين واقعيين. ادمج الترقيم (1 إلى 5) والعنوان كما هو موضح -->
+                    <div class="glass-panel p-0 overflow-hidden border border-white/10 break-inside-avoid">
                         <div class="bg-black/50 p-5 flex flex-col md:flex-row justify-between items-center border-b border-white/5">
-                            <h4 class="text-2xl font-bold text-cyan-400 flex items-center gap-3">
-                                <span class="bg-cyan-900/50 p-2 rounded-lg text-xl">🏢</span> [اسم المنافس الواقعي]
-                            </h4>
+                            <div>
+                                <h4 class="text-2xl font-bold text-cyan-400 flex items-center gap-3">
+                                    <span class="bg-cyan-900/80 px-3 py-1 rounded-lg text-white font-black"># [رقم المنافس 1-5]</span>
+                                    [اسم المنافس الواقعي]
+                                </h4>
+                                <div class="text-gray-300 text-sm mt-2 flex items-center gap-2 font-bold">
+                                    <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <span>العنوان: [اذكر الموقع/الحي المتوقع أو الفعلي للمنافس في ${pCity}]</span>
+                                </div>
+                            </div>
                             <div class="mt-3 md:mt-0 flex gap-4 items-center">
-                                <span class="text-sm text-gray-300">الخطر التنافسي:</span>
-                                <span class="px-4 py-1.5 rounded-full text-sm font-bold bg-red-900/60 text-red-300 border border-red-500/50">[مرتفع / متوسط / ضعيف]</span>
+                                <span class="px-4 py-1.5 rounded-full text-sm font-bold bg-red-900/60 text-red-300 border border-red-500/50">خطر: [مرتفع/متوسط/ضعيف]</span>
                             </div>
                         </div>
-                        
-                        <!-- تفاصيل البطاقة -->
                         <div class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-                            <!-- العمود الأيمن: بيانات السوق -->
-                            <div class="lg:col-span-4 bg-white/5 p-5 rounded-xl border border-white/5 flex flex-col justify-center">
-                                <h5 class="text-gray-400 font-bold mb-2 text-sm">الحصة السوقية التقديرية بالمجال</h5>
-                                <div class="flex items-center gap-3 mb-6">
-                                    <div class="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
-                                        <div class="bg-cyan-500 h-full animate-bar" style="width: [رقم تقديري]%"></div>
-                                    </div>
-                                    <span class="text-white font-bold text-lg">[رقم تقديري]%</span>
-                                </div>
-                                <h5 class="text-gray-400 font-bold mb-2 text-sm">الميزة التنافسية الأساسية (UVP)</h5>
-                                <p class="text-cyan-100 text-sm leading-relaxed border-r-2 border-cyan-500 pr-3 py-1 bg-cyan-900/20 rounded-l-lg">[اكتب سطرين يشرحان بماذا يتميز هذا المنافس تحديدا في السوق]</p>
+                            <div class="lg:col-span-4 bg-white/5 p-5 rounded-xl border border-white/5">
+                                <h5 class="text-gray-400 font-bold mb-2 text-sm">الحصة السوقية</h5>
+                                <div class="flex items-center gap-3 mb-4"><div class="w-full bg-gray-800 rounded-full h-3"><div class="bg-cyan-500 h-full animate-bar" style="width: [رقم]%"></div></div><span class="text-white font-bold">[رقم]%</span></div>
+                                <h5 class="text-gray-400 font-bold mb-2 text-sm">الميزة التنافسية (UVP)</h5>
+                                <p class="text-cyan-100 text-sm border-r-2 border-cyan-500 pr-3 bg-cyan-900/20 py-2 rounded-l-lg">[سطرين توضح الميزة]</p>
                             </div>
-
-                            <!-- العمود الأوسط: نقاط القوة (3 نقاط) -->
-                            <div class="lg:col-span-4 bg-green-900/10 p-5 rounded-xl border border-green-500/20 relative overflow-hidden">
-                                <div class="absolute top-0 right-0 w-16 h-16 bg-green-500/10 rounded-full blur-xl"></div>
-                                <h5 class="text-green-400 font-bold mb-4 flex items-center gap-2"><span class="text-xl">💪</span> أبرز نقاط القوة</h5>
-                                <ul class="space-y-3">
-                                    <li class="flex items-start gap-2 text-gray-200 text-sm"><span class="text-green-500 mt-0.5">✔</span> <span>[نقطة قوة تفصيلية وعميقة 1 توضح سر نجاحهم]</span></li>
-                                    <li class="flex items-start gap-2 text-gray-200 text-sm"><span class="text-green-500 mt-0.5">✔</span> <span>[نقطة قوة تفصيلية 2]</span></li>
-                                    <li class="flex items-start gap-2 text-gray-200 text-sm"><span class="text-green-500 mt-0.5">✔</span> <span>[نقطة قوة تفصيلية 3]</span></li>
-                                </ul>
+                            <div class="lg:col-span-4 bg-green-900/10 p-5 rounded-xl border border-green-500/20">
+                                <h5 class="text-green-400 font-bold mb-3">💪 نقاط القوة</h5>
+                                <ul class="space-y-2"><li class="text-gray-200 text-sm flex gap-2"><span class="text-green-500">✔</span><span>[نقطة قوة 1]</span></li><li class="text-gray-200 text-sm flex gap-2"><span class="text-green-500">✔</span><span>[نقطة قوة 2]</span></li><li class="text-gray-200 text-sm flex gap-2"><span class="text-green-500">✔</span><span>[نقطة قوة 3]</span></li></ul>
                             </div>
-
-                            <!-- العمود الأيسر: نقاط الضعف (3 نقاط) -->
-                            <div class="lg:col-span-4 bg-red-900/10 p-5 rounded-xl border border-red-500/20 relative overflow-hidden">
-                                <div class="absolute top-0 right-0 w-16 h-16 bg-red-500/10 rounded-full blur-xl"></div>
-                                <h5 class="text-red-400 font-bold mb-4 flex items-center gap-2"><span class="text-xl">🎯</span> فجوات ونقاط ضعف للاستغلال</h5>
-                                <ul class="space-y-3">
-                                    <li class="flex items-start gap-2 text-gray-200 text-sm"><span class="text-red-500 mt-0.5">✖</span> <span>[نقطة ضعف تفصيلية 1 تعتبر فرصة لك]</span></li>
-                                    <li class="flex items-start gap-2 text-gray-200 text-sm"><span class="text-red-500 mt-0.5">✖</span> <span>[نقطة ضعف تفصيلية 2]</span></li>
-                                    <li class="flex items-start gap-2 text-gray-200 text-sm"><span class="text-red-500 mt-0.5">✖</span> <span>[نقطة ضعف تفصيلية 3]</span></li>
-                                </ul>
+                            <div class="lg:col-span-4 bg-red-900/10 p-5 rounded-xl border border-red-500/20">
+                                <h5 class="text-red-400 font-bold mb-3">🎯 نقاط ضعف وفجوات</h5>
+                                <ul class="space-y-2"><li class="text-gray-200 text-sm flex gap-2"><span class="text-red-500">✖</span><span>[نقطة ضعف 1]</span></li><li class="text-gray-200 text-sm flex gap-2"><span class="text-red-500">✖</span><span>[نقطة ضعف 2]</span></li><li class="text-gray-200 text-sm flex gap-2"><span class="text-red-500">✖</span><span>[نقطة ضعف 3]</span></li></ul>
                             </div>
                         </div>
                     </div>
-                    <!-- نهاية كارت المنافس -->
                 </div>
             `;
 
             const aiResponseHtml = await fetchGeminiData(prompt);
-
             document.getElementById('analysisContent').innerHTML = aiResponseHtml;
-            
             document.getElementById('loadingState').classList.add('hidden');
             document.getElementById('resultsArea').classList.remove('hidden');
             
-            // Re-trigger animations
             const bars = document.querySelectorAll('.animate-bar');
-            bars.forEach(bar => {
-                bar.style.animation = 'none';
-                bar.offsetHeight; /* trigger reflow */
-                bar.style.animation = null; 
-            });
-
-            setTimeout(() => {
-                document.getElementById('btnFeasibility').classList.remove('hidden');
-            }, 800);
+            bars.forEach(bar => { bar.style.animation = 'none'; bar.offsetHeight; bar.style.animation = null; });
+            setTimeout(() => { document.getElementById('btnFeasibility').classList.remove('hidden'); }, 800);
         }
 
         async function openFeasibilityModal() {
             if (!currentAnalysisData) return;
-
             const modal = document.getElementById('feasibilityModal');
             const contentBlock = document.getElementById('feasibilityContent');
             const loader = document.getElementById('modalLoading');
-            const innerModal = document.getElementById('modalContent');
 
             modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                innerModal.classList.remove('scale-95');
-            }, 10);
-
-            contentBlock.classList.add('hidden');
-            loader.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); document.getElementById('modalContent').classList.remove('scale-95'); }, 10);
+            contentBlock.classList.add('hidden'); loader.classList.remove('hidden');
 
             const prompt = `
                 بناءً على التحليل الاستراتيجي لمشروع "${currentAnalysisData.name}" في ${currentAnalysisData.city}،
-                صغ "مسودة دراسة جدوى استراتيجية" احترافية داخل هيكل HTML التالي:
+                قم بكتابة "دراسة جدوى استراتيجية شاملة ومطولة جداً". يجب أن تكون الفقرات طويلة ومليئة بالتفاصيل والتحليلات العميقة، تجنب الاختصار الشديد.
 
+                التزم حرفياً بهذا الهيكل:
                 <div class="space-y-8">
-                    <!-- الملخص -->
-                    <div class="bg-gradient-to-r from-blue-900/50 to-transparent p-6 rounded-2xl border-r-4 border-blue-500 shadow-lg">
-                        <h3 class="text-2xl font-bold text-blue-300 mb-3">الخلاصة التنفيذية والتوجه الاستراتيجي</h3>
-                        <p class="text-gray-200 leading-relaxed text-lg">[اكتب ملخصاً عميقاً حول فرصة نجاح المشروع وكيف يمكنه اختراق السوق]</p>
+                    <div class="bg-gradient-to-r from-blue-900/50 to-transparent p-8 rounded-2xl border-r-4 border-blue-500 shadow-lg break-inside-avoid">
+                        <h3 class="text-3xl font-black text-blue-300 mb-4">الخلاصة التنفيذية والتوجه الاستراتيجي</h3>
+                        <p class="text-gray-200 leading-relaxed text-lg text-justify">[اكتب هنا فقرة طويلة وشاملة لا تقل عن 100 كلمة تشرح فرصة نجاح المشروع، رؤيته، وكيف سيخترق السوق ويتميز عن المنافسين الذين تم تحليلهم]</p>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- السوق -->
-                        <div class="bg-black/30 p-6 rounded-2xl border border-indigo-500/30">
-                            <h3 class="text-xl font-bold text-indigo-400 mb-4 flex items-center gap-2"><span class="text-2xl">📊</span> المؤشرات التسويقية</h3>
-                            <ul class="space-y-4">
-                                <li class="bg-white/5 p-3 rounded-lg border border-white/5"><strong class="text-white block mb-1">الطلب والفجوة:</strong> <span class="text-gray-300 text-sm">[تفصيل]</span></li>
-                                <li class="bg-white/5 p-3 rounded-lg border border-white/5"><strong class="text-white block mb-1">الشريحة المستهدفة الدقيقة:</strong> <span class="text-gray-300 text-sm">[تفصيل]</span></li>
-                            </ul>
-                        </div>
-                        <!-- التشغيل -->
-                        <div class="bg-black/30 p-6 rounded-2xl border border-amber-500/30">
-                            <h3 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2"><span class="text-2xl">⚙️</span> المتطلبات التشغيلية (الفنية)</h3>
-                            <ul class="space-y-4">
-                                <li class="bg-white/5 p-3 rounded-lg border border-white/5"><strong class="text-white block mb-1">الموقع والتجهيزات:</strong> <span class="text-gray-300 text-sm">[اقتراحات لأماكن في ${currentAnalysisData.city} والتجهيزات الأساسية]</span></li>
-                                <li class="bg-white/5 p-3 rounded-lg border border-white/5"><strong class="text-white block mb-1">الهيكل الإداري والعمالة:</strong> <span class="text-gray-300 text-sm">[تفصيل]</span></li>
-                            </ul>
+                    <div class="bg-black/40 p-8 rounded-2xl border border-indigo-500/30 break-inside-avoid">
+                        <h3 class="text-2xl font-bold text-indigo-400 mb-6 border-b border-indigo-500/20 pb-3">📈 تحليل السوق والفجوة التسويقية</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">[فقرة طويلة تفصيلية عن حجم السوق والطلب في ${currentAnalysisData.city}]</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            <div class="bg-white/5 p-5 rounded-xl border border-white/10">
+                                <strong class="text-indigo-300 block mb-2 text-xl">الشريحة المستهدفة الدقيقة:</strong>
+                                <p class="text-gray-300 text-sm leading-relaxed">[تفصيل دقيق لمن هم العملاء، أعمارهم، سلوكهم الشرائي]</p>
+                            </div>
+                            <div class="bg-white/5 p-5 rounded-xl border border-white/10">
+                                <strong class="text-indigo-300 block mb-2 text-xl">الخطة التسويقية المقترحة:</strong>
+                                <p class="text-gray-300 text-sm leading-relaxed">[استراتيجية الدخول للسوق، القنوات الإعلانية، وكيفية جذب العملاء من المنافسين]</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- المالية -->
-                    <div class="bg-green-900/20 p-8 rounded-2xl border border-green-500/40 relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-32 h-32 bg-green-500/10 rounded-full blur-2xl"></div>
-                        <h3 class="text-2xl font-bold text-green-400 mb-6 flex items-center gap-2 relative z-10"><span class="text-3xl">💰</span> الهيكل المالي المقترح</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
-                            <div>
-                                <h4 class="text-white font-bold mb-3 border-b border-green-500/30 pb-2">التكاليف التأسيسية المتوقعة</h4>
-                                <ul class="list-disc list-inside text-gray-300 text-sm space-y-2">
-                                    <li>[بند تكلفة رئيسي 1]</li><li>[بند تكلفة رئيسي 2]</li><li>[بند تكلفة رئيسي 3]</li>
+                    <div class="bg-black/40 p-8 rounded-2xl border border-amber-500/30 break-inside-avoid">
+                        <h3 class="text-2xl font-bold text-amber-400 mb-6 border-b border-amber-500/20 pb-3">⚙️ الخطة التشغيلية والفنية</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">[فقرة تشرح كيف سيعمل المشروع على أرض الواقع]</p>
+                        <ul class="space-y-4 mt-4">
+                            <li class="flex flex-col gap-2"><strong class="text-amber-200">الموقع والتجهيزات (Location & Assets):</strong><span class="text-gray-300 bg-white/5 p-4 rounded-lg border border-white/5">[اقتراح أحياء/مناطق محددة في ${currentAnalysisData.city} تناسب طبيعة المشروع، ولماذا؟ وما هي التجهيزات الفنية المطلوبة للبدء]</span></li>
+                            <li class="flex flex-col gap-2"><strong class="text-amber-200">الهيكل الإداري والموارد البشرية:</strong><span class="text-gray-300 bg-white/5 p-4 rounded-lg border border-white/5">[ما هي الوظائف الأساسية المطلوبة، وتوجيهات بخصوص التوظيف والتدريب لضمان جودة الخدمة]</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-900/20 p-8 rounded-2xl border border-green-500/40 break-inside-avoid relative overflow-hidden">
+                        <h3 class="text-2xl font-bold text-green-400 mb-6 border-b border-green-500/30 pb-3">💰 الهيكل المالي (المصروفات والإيرادات)</h3>
+                        <p class="text-gray-200 mb-6">[فقرة عن السياسة المالية المقترحة للحفاظ على التدفق النقدي]</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="bg-black/30 p-5 rounded-xl border border-green-500/20">
+                                <h4 class="text-white font-bold mb-4 flex items-center gap-2"><span class="text-red-400">🔻</span> بنود التكاليف التأسيسية والتشغيلية</h4>
+                                <ul class="list-disc list-inside text-gray-300 text-sm space-y-3 leading-relaxed">
+                                    <li>[بند تكلفة تفصيلي مع شرح سبب أهميته]</li><li>[بند تكلفة تفصيلي 2]</li><li>[بند تكلفة تفصيلي 3]</li><li>[بند تكلفة تفصيلي 4]</li>
                                 </ul>
                             </div>
-                            <div>
-                                <h4 class="text-white font-bold mb-3 border-b border-green-500/30 pb-2">قنوات الإيرادات (Monetization)</h4>
-                                <ul class="list-disc list-inside text-gray-300 text-sm space-y-2">
-                                    <li>[قناة إيراد 1]</li><li>[قناة إيراد 2]</li><li>[قناة إيراد مبتكرة 3]</li>
+                            <div class="bg-black/30 p-5 rounded-xl border border-green-500/20">
+                                <h4 class="text-white font-bold mb-4 flex items-center gap-2"><span class="text-green-400">🔼</span> مصادر وقنوات الإيرادات المتوقعة</h4>
+                                <ul class="list-disc list-inside text-gray-300 text-sm space-y-3 leading-relaxed">
+                                    <li>[كيف سيحقق المشروع أرباحه بالتفصيل - القناة الأولى]</li><li>[قناة إيراد ثانية]</li><li>[قناة إيراد ثالثة أو فكرة مبتكرة لزيادة الدخل]</li>
                                 </ul>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-red-900/20 p-8 rounded-2xl border border-red-500/40 break-inside-avoid">
+                        <h3 class="text-2xl font-bold text-red-400 mb-4 border-b border-red-500/20 pb-3">⚠️ مصفوفة المخاطر والحلول البديلة</h3>
+                        <div class="space-y-4 mt-4">
+                            <div class="bg-black/40 p-4 rounded-xl border-l-4 border-red-500"><strong class="text-white block mb-1">المخاطر السوقية:</strong><p class="text-gray-300 text-sm">[ما هي؟ وكيف يمكن تفاديها؟]</p></div>
+                            <div class="bg-black/40 p-4 rounded-xl border-l-4 border-orange-500"><strong class="text-white block mb-1">المخاطر التشغيلية والمالية:</strong><p class="text-gray-300 text-sm">[ما هي؟ وما هي الخطة (ب) لتجاوزها؟]</p></div>
                         </div>
                     </div>
                 </div>
             `;
 
             const aiResponseHtml = await fetchGeminiData(prompt);
-
             contentBlock.innerHTML = aiResponseHtml;
             loader.classList.add('hidden');
             contentBlock.classList.remove('hidden');
@@ -553,34 +453,29 @@
 
         function closeFeasibilityModal() {
             const modal = document.getElementById('feasibilityModal');
-            const innerModal = document.getElementById('modalContent');
-            
             modal.classList.add('opacity-0');
-            innerModal.classList.add('scale-95');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
+            document.getElementById('modalContent').classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        function printFeasibilityModal() {
+            document.body.classList.add('printing-modal');
+            window.print();
+            document.body.classList.remove('printing-modal');
         }
 
         function resetForm() {
             document.getElementById('projectName').value = '';
             document.getElementById('projectCategory').value = '';
             document.getElementById('targetCity').value = 'مكة المكرمة';
-            
             document.getElementById('resultsArea').classList.add('hidden');
             document.getElementById('btnFeasibility').classList.add('hidden');
             document.getElementById('analysisContent').innerHTML = '';
-            
             currentAnalysisData = null;
         }
 
         const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shimmer {
-                100% { transform: translateX(50%); }
-            }
-        `;
+        style.textContent = `@keyframes shimmer { 100% { transform: translateX(50%); } }`;
         document.head.appendChild(style);
     </script>
 </body>
